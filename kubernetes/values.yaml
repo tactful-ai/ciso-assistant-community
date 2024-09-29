@@ -1,0 +1,73 @@
+#__________________________________________________________________________________________________________________________
+### Frontend ###
+frontend:
+  appName: frontend
+  imageName: ghcr.io/intuitem/ciso-assistant-community/frontend
+  imageTag: latest
+
+  ### Config ###
+  protocolHeader: "x-forwarded-proto"
+  hostHeader: "x-forwarded-host"
+
+#__________________________________________________________________________________________________________________________
+### Backend ###
+backend:
+  appName: backend
+  imageName: ghcr.io/intuitem/ciso-assistant-community/backend
+  imageTag: latest
+
+  ### Config ###
+  allowedHosts: "*"
+  djangoDebug: "True"
+  authTokenTtl: "7200"
+  djangoSettingsModule: "ciso_assistant.settings"
+  
+  postgresName: "ciso-assistant"
+  postgresUser: "ciso-assistantuser"
+  postgresPassword: "cis123456"
+  dbHost: "postgresql"
+  dbPort: "5432"
+  
+  # To enable SMTP uncomment and add your values
+  # emailHostUser: 
+  # emailHostPassword: 
+  # defaultFromEmail: 
+  # emailHost: 
+  # emailPort: "587"
+  # emailUseTls: "True"
+
+#__________________________________________________________________________________________________________________________
+### Database (PostgreSQL) ###
+
+usePostgres: false  # If true, use PostgreSQL. If false, use SQLite.
+
+DB:
+  appName: postgresql
+  imageName: postgres
+  imageTag: 14-alpine
+
+  ### Config ###
+  db: "ciso-assistant"  # The database name
+  user: "ciso-assistantuser"  # The database user
+  password: "cis123456"  # The database password
+
+  ### Storage ###
+  storage:
+    accessModes:
+      - ReadWriteOnce
+    size: 10Gi  # Size of the persistent volume
+    storageClassName: "local" # Change to your storage class type
+
+#__________________________________________________________________________________________________________________________
+### Ingress ###
+ingress:
+  Ingress_Name: ciso-assistant
+  DNS_Name: ciso.com
+
+  
+#__________________________________________________________________________________________________________________________
+### Secret ###         ### Ciso username and password 
+cisoBackendSecret:
+  email: superuser@ciso-assistant.com
+  password: password@123!
+

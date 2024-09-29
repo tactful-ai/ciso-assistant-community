@@ -1,0 +1,22 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.frontend.appName }} 
+  namespace: {{ .Release.Namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.frontend.appName }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.frontend.appName }}
+    spec:
+      containers:
+      - name: {{ .Values.frontend.appName }}
+        image: {{ .Values.frontend.imageName }}:{{ .Values.frontend.imageTag }}
+        envFrom:
+        - configMapRef:
+            name: ciso-frontend-config

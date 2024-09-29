@@ -1,0 +1,17 @@
+{{- if .Values.usePostgres }}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: postgres-pv
+  labels:
+    app: {{ .Values.DB.appName }}
+spec:
+  capacity:
+    storage: {{ .Values.DB.storage.size }}
+  accessModes:
+    {{- toYaml .Values.DB.storage.accessModes | nindent 4 }}
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: {{ .Values.DB.storage.storageClassName }}
+  hostPath:
+    path: /mnt/data/postgres
+{{- end }}

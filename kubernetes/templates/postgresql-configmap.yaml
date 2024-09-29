@@ -1,0 +1,12 @@
+{{- if .Values.usePostgres }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgresql-config
+  namespace: {{ .Release.Namespace }}
+data:
+  POSTGRES_DB: "{{ .Values.DB.db }}"
+  POSTGRES_USER: "{{ .Values.DB.user }}"
+  POSTGRES_PASSWORD: "{{ .Values.DB.password }}"
+{{- end }}

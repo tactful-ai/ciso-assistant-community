@@ -1,0 +1,45 @@
+--- 
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Values.ingress.Ingress_Name }}
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-buffer-size: "16k"
+    nginx.ingress.kubernetes.io/proxy-buffers-number: "8"
+    nginx.ingress.kubernetes.io/proxy-busy-buffers-size: "16k"
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: {{ .Values.ingress.DNS_Name }}
+    http:
+      paths:
+      - path: /api/iam/sso/redirect/
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ .Values.backend.appName }}
+            port:
+              number: 8000
+      - path: /api/accounts/saml/0/acs/
+        pathType: Prefix
+        backend:
+          service:
+            name: backend
+            port:
+              number: 8000
+      - path: /api/accounts/saml/0/acs/finish/
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ .Values.backend.appName }}
+            port:
+              number: 8000
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ .Values.frontend.appName }} 
+            port:
+              number: 3000
+

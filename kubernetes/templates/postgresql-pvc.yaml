@@ -1,0 +1,14 @@
+{{- if .Values.usePostgres }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc
+  namespace: {{ .Release.Namespace }}
+spec:
+  accessModes:
+    {{- toYaml .Values.DB.storage.accessModes | nindent 4 }}
+  resources:
+    requests:
+      storage: {{ .Values.DB.storage.size }}
+{{- end }}

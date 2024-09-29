@@ -1,0 +1,34 @@
+{{- if .Values.usePostgres }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.DB.appName }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.DB.appName }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.DB.appName }}
+    spec:
+      containers:
+      - name: {{ .Values.DB.appName }}
+        image: {{ .Values.DB.imageName }}:{{ .Values.DB.imageTag }}
+        volumeMounts:
+        - name: postgres-volume
+          mountPath: /var/lib/postgresql/data
+          subPath: postgres
+        envFrom:
+        - configMapRef:
+            name: postgresql-config
+        ports:
+        - containerPort: {{ .Values.backend.dbPort }}
+      restartPolicy: Always
+      volumes:
+      - name: postgres-volume
+        persistentVolumeClaim:
+          claimName: postgres-pvc
+{{- end }}

@@ -1,0 +1,14 @@
+{{- if .Values.usePostgres }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.DB.appName }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  ports:
+  - port: 5432
+    targetPort: 5432
+  selector:
+    app: {{ .Values.DB.appName }}
+{{- end }}

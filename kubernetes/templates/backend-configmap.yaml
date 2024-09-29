@@ -1,0 +1,27 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ciso-backend-config
+  namespace: {{ .Release.Namespace }}
+data:
+  ALLOWED_HOSTS: "{{ .Values.backend.allowedHosts }}"
+  CISO_ASSISTANT_URL: https://{{ .Values.ingress.DNS_Name }}
+  DJANGO_DEBUG: "{{ .Values.backend.djangoDebug }}"
+  AUTH_TOKEN_TTL: "{{ .Values.backend.authTokenTtl }}"
+  DJANGO_SETTINGS_MODULE: "{{ .Values.backend.djangoSettingsModule }}"
+  
+  {{- if .Values.usePostgres }}
+  POSTGRES_NAME: "{{ .Values.backend.postgresName }}"
+  POSTGRES_USER: "{{ .Values.backend.postgresUser }}"
+  POSTGRES_PASSWORD: "{{ .Values.backend.postgresPassword }}"
+  DB_HOST: "{{ .Values.backend.dbHost }}"
+  DB_PORT: "{{ .Values.backend.dbPort }}"
+  {{- end }}
+  
+  EMAIL_HOST_USER: "{{ .Values.backend.emailHostUser }}"
+  EMAIL_HOST_PASSWORD: "{{ .Values.backend.emailHostPassword }}"
+  DEFAULT_FROM_EMAIL: "{{ .Values.backend.defaultFromEmail }}"
+  EMAIL_HOST: "{{ .Values.backend.emailHost }}"
+  EMAIL_PORT: "{{ .Values.backend.emailPort }}"
+  EMAIL_USE_TLS: "{{ .Values.backend.emailUseTls }}"

@@ -1,0 +1,28 @@
+Thank you for installing CISO Assistant!
+
+Your deployment is now complete.
+
+Database Information
+{{- if .Values.usePostgres }} PostgreSQL is being used as the database.
+
+Database Name: {{ .Values.backend.postgresName }}
+Database User: {{ .Values.backend.postgresUser }}
+Database Host: {{ .Values.backend.dbHost }}
+Database Port: {{ .Values.backend.dbPort }}
+
+{{- else }} SQLite is being used as the database. No external configuration is needed. {{- end }}
+
+Admin Account Details
+
+Admin Email: {{ .Values.cisoBackendSecret.email }}
+To retrieve the admin password from Kubernetes Secrets:
+
+kubectl get secret ciso-backend-secret -n {{ .Release.Namespace }} -o jsonpath="{.data.DJANGO_SUPERUSER_PASSWORD}" | base64 --decode
+
+Uninstalling the Chart
+
+To uninstall/delete the deployment and its associated resources:
+
+helm uninstall {{ .Release.Name }} -n {{ .Release.Namespace }}
+
+Thank you for using CISO Assistant! For additional information, please refer to the documentation.
