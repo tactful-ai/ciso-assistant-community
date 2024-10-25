@@ -19,13 +19,8 @@ Since Ingress is mandatory, make sure that your Ingress resource is properly con
 
 CISO Assistant can use either PostgreSQL or SQLite as its database.
 
-PostgreSQL
-
-If You want to to use PostgreSQL, You can enable it from the values file.
-
-SQLite
-
-If using SQLite, no external configuration is needed.
+- PostgreSQL: If You want to to use PostgreSQL, You can enable it from the values file.
+- SQLite: If using SQLite, no external configuration is needed.
 
 ## Admin Account Details
 
